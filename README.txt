@@ -1,8 +1,16 @@
 NFS Underground 2 - Extra Options - Build 2; Rev.01
 Made by nlgzrgn
+Unofficial edits by BlackScout
 ------------------------------------------------------------------------------------------------------------
 Features:
 (Almost every option can be edited from .ini file.)
+
+-- (NEW!) DebugCamWorld can now be toggled in the ini.
+> Just press L and use the numpad to move around the map.
+
+-- (NEW!) You can change the reflection resolution for Cars and roads!
+! Increasing the Car Reflection resolution beyond 256 may cause crashes.
+! The Road Reflection resolution tweak does not work at maximum settings. Set the in-game option to one tick below.
 
 -- (NEW!) You can enable subtitles for English!
 > German, French, Spanish, all have subtitles. Why not English?
