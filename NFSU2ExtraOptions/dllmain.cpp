@@ -8,7 +8,8 @@
 DWORD WINAPI Thing(LPVOID);
 
 unsigned char MinimumLap, MaximumLap, KOLap, MinimumCPU, MaximumCPU, KOCPU, MinimumLapLANC, MinimumLapLAND, MinimumLapLANS, MaximumLapLAN, MaximumPlayersLAN, MaximumDriftX;
-bool DriftPlus, DriftMultiply, UnlockRegionals, UnlockAll, UnlockTracks, EnableTrackSelectForFreeRun, AnyTrackInAnyMode, RemoveRaceBarriers, RemoveLockedAreaBarriers;
+bool DriftPlus, DriftMultiply, UnlockRegionals, UnlockAll, UnlockTracks, EnableTrackSelectForFreeRun, AnyTrackInAnyMode, RemoveRaceBarriers, RemoveLockedAreaBarriers, EnableLogger, DbgCamWorld;
+int ReflectionResX, ReflectionResY, VehRefRes;
 
 float SplashScreenTimeLimit, NeonBrightness;
 bool MorePaint, MoreVinyls, nlgzrgnTakeOver, EnableCameras, ShowOnline, ShowOutrun, EnableTrackSelectForOutrun, once1, once2, ShowSubtitles, EnableTrackNameHook, UnfreezeKO, CarbonStyleRaceStatus;
@@ -50,6 +51,7 @@ void __declspec(naked) PaintCategoryCodeCave()
 			jmp PaintCategoryCodeCaveJump1
 	}
 }
+
 
 void __declspec(naked) PaintCategoryCodeCave2()
 {
@@ -138,6 +140,9 @@ void Init()
 	// Read values from .ini
 	CIniReader iniReader("NFSU2ExtraOptionsSettings.ini");
 
+	// DEBUG
+	DbgCamWorld = iniReader.ReadInteger("DEBUG", "DebugCamWorld", 1) == 1;
+
 	// Hotkeys
 	hotkeyUnlockAllTracks = iniReader.ReadInteger("Hotkeys", "UnlockAllTracks", 116); // F5
 	hotkeyAnyTrackInAnyMode = iniReader.ReadInteger("Hotkeys", "AnyTrackInAnyMode", 36); // HOME
@@ -164,6 +169,11 @@ void Init()
 	MaximumDriftX = iniReader.ReadInteger("Drift", "MaximumMultiplier", 9);
 	DriftPlus = iniReader.ReadInteger("Drift", "PlusSign", 0) == 1;
 	DriftMultiply = iniReader.ReadInteger("Drift", "ShowWithoutMultiplying", 0) == 1;
+	
+	// Reflections (Findings by Aero_ once posted in NFSMods discord)
+	ReflectionResX = iniReader.ReadInteger("Reflection", "ReflectionResolutionW", 1920);
+	ReflectionResY = iniReader.ReadInteger("Reflection", "ReflectionResolutionH", 1080);
+	VehRefRes = iniReader.ReadInteger("Reflection", "VehicleRefRes", 256);
 
 	// Menu
 	ShowOnline = iniReader.ReadInteger("Menu", "ShowOnline", 1) == 1;
@@ -226,6 +236,21 @@ void Init()
 	injector::WriteMemory<unsigned char>(0x4B31AA, 0xB0, true);				// Maximum Players Fix - lea to mov al,X
 	injector::WriteMemory<unsigned char>(0x4B31AB, MaximumPlayersLAN, true);// Maximum Players Controller (LAN)
 	injector::MakeNOP(0x4B31AC, 2, true);									// Maximum Players Fix - nop remaining bytes from lea
+	
+	injector::WriteMemory<int>(0x5BA08A, ReflectionResX, true); 			// Reflection Resolution, Width (1)
+	injector::WriteMemory<int>(0x5BA0CC, ReflectionResX, true); 			// Reflection Resolution, Width (2)
+	injector::WriteMemory<int>(0x5C236D, ReflectionResX, true); 			// Reflection Resolution, Width (3)
+	
+	injector::WriteMemory<int>(0x5BA0D1, ReflectionResY, true); 			// Reflection Resolution, Height	(1)
+	injector::WriteMemory<int>(0x5C2366, ReflectionResY, true); 			// Reflection Resolution, Height	(2)
+	injector::WriteMemory<int>(0x5BA08F, ReflectionResY, true); 			// Reflection Resolution, Height	(3)
+	
+	injector::WriteMemory<int>(0x7FEE6C, VehRefRes, true);					// Vehicle Reflection Resolution
+
+	if (DbgCamWorld)
+	{
+		injector::WriteMemory<int>(0x865098, DbgCamWorld, true);
+	}
 
 	// Fix "insert disc 2" bug for PCs with No Optical Drive
 	injector::WriteMemory<unsigned char>(0x5C0D3F, 0x78, true);
@@ -238,6 +263,7 @@ void Init()
 		injector::WriteMemory<unsigned char>(0x4AB793, 0x01, true);
 		injector::WriteMemory<unsigned char>(0x4AB794, 0x90, true);
 	}
+
 
 	// Add a + before drift point
 	if (DriftPlus) 
@@ -419,7 +445,7 @@ DWORD WINAPI Thing(LPVOID)
 		{
 			DWORD CopyrightAddr = (Strings + 0xb9c);
 			char* Copyright = *(char**)CopyrightAddr;
-			char* Append = "^NFSU2 Extra Options - © 2016 nlgzrgn. No rights reserved.";
+			char* Append = "^NFSU2 Extra Options (Unofficial) - © 2017 nlgzrgn & BlackScout. No rights reserved.";
 			char* Tookover = strcat(Copyright, Append);
 			injector::WriteMemory<DWORD>(CopyrightAddr, (DWORD)Tookover, true);
 			once2 = 1;
