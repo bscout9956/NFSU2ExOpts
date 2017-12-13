@@ -1,4 +1,4 @@
-NFS Underground 2 - Extra Options - Build 2; Rev.01
+NFS Underground 2 - Extra Options - Build 2; Rev.02 (Unofficial BlackScout Edit)
 Made by nlgzrgn
 Unofficial edits by BlackScout
 ------------------------------------------------------------------------------------------------------------
@@ -83,6 +83,11 @@ Installation:
 
 ------------------------------------------------------------------------------------------------------------
 Changelog: (+ Addition, * Change, ! Attention, - Deletion)
+
+Build 2; Rev.02 (Unofficial):
+
++ Added an option to enable DebugCamWorld
++ Added options to tweak Reflection Resolution on cars and roads
 
 Build 2; Rev.01:
 + Added an option to show special vinyl category on Vinyls menu.
