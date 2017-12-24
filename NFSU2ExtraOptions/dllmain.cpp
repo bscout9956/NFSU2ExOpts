@@ -371,13 +371,13 @@ void Init()
 	
 	// Reflection
 	
-	injector::WriteMemory<int>(0x5BA08A, ReflectionResX, true); 			// Reflection Resolution, Width (1)
-	injector::WriteMemory<int>(0x5BA0CC, ReflectionResX, true); 			// Reflection Resolution, Width (2)
-	injector::WriteMemory<int>(0x5C236D, ReflectionResX, true); 			// Reflection Resolution, Width (3)
+	injector::WriteMemory<int>(0x5BA08A, ReflectionResW, true); 			// Reflection Resolution, Width (1)
+	injector::WriteMemory<int>(0x5BA0CC, ReflectionResW, true); 			// Reflection Resolution, Width (2)
+	injector::WriteMemory<int>(0x5C236D, ReflectionResW, true); 			// Reflection Resolution, Width (3)
 	
-	injector::WriteMemory<int>(0x5BA0D1, ReflectionResY, true); 			// Reflection Resolution, Height (1)
-	injector::WriteMemory<int>(0x5C2366, ReflectionResY, true); 			// Reflection Resolution, Height (2)
-	injector::WriteMemory<int>(0x5BA08F, ReflectionResY, true); 			// Reflection Resolution, Height (3)
+	injector::WriteMemory<int>(0x5BA0D1, ReflectionResH, true); 			// Reflection Resolution, Height (1)
+	injector::WriteMemory<int>(0x5C2366, ReflectionResH, true); 			// Reflection Resolution, Height (2)
+	injector::WriteMemory<int>(0x5BA08F, ReflectionResH, true); 			// Reflection Resolution, Height (3)
 	
 	injector::WriteMemory<int>(0x7FEE6C, VehRefRes, true);					// Vehicle Reflection Resolution
 	
