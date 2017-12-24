@@ -317,7 +317,7 @@ void Init()
 
 	// GFX
 	ReflectionResW = iniReader.ReadInteger("GFX", "RoadRefResolutionW", 1920);
-	ReflectionResH = iniReader.ReadInteger("GFX", "RoadRefResolutionH", 1920);
+	ReflectionResH = iniReader.ReadInteger("GFX", "RoadRefResolutionH", 1080);
 	VehRefRes = iniReader.ReadInteger("GFX", "VehicleReflectionResolution", 256);
 
 	// Misc
